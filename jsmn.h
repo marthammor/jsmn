@@ -873,11 +873,11 @@ static jsmnint jsmn_parse_comma(jsmnparser *parser, jsmntok *tokens) {
     return JSMN_ERROR_INVAL;
   }
 
-  jsmntype type = JSMN_UNDEFINED;
+  jsmntype type = JSMN_UNDEFINED; /*!< parent's type */
   if (tokens == NULL) {
     if (parser->toksuper < (sizeof(jsmnint) * 8) &&
         parser->toknext & (1 << parser->toksuper)) {
-      type = JSMN_INSD_OBJ;
+      type = JSMN_OBJECT;
     }
   } else {
     if (parser->toksuper != JSMN_NEG) {
@@ -886,7 +886,7 @@ static jsmnint jsmn_parse_comma(jsmnparser *parser, jsmntok *tokens) {
   }
 
   if (parser->toksuper != JSMN_NEG) {
-    if (type & (JSMN_OBJECT | JSMN_INSD_OBJ)) {
+    if (type & JSMN_OBJECT) {
       parser->expected = JSMN_AFTR_COMMA_O;
     } else {
       parser->expected = JSMN_AFTR_COMMA_A;
